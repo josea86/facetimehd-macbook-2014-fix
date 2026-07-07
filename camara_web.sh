@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Este script instala el driver facetimehd (bcwc_pcie) y el firmware
-# para la cámara Broadcom/iSight en MacBook Pro Retina con Xubuntu/Ubuntu/Debian.
+# para la cámara Broadcom/iSight en MacBook Pro Retina con Ubuntu/Debian.
 
 # --- Configuración de rutas ---
 # Guardamos el directorio actual desde donde se lanza el script
@@ -24,9 +24,9 @@ echo "      (Usando descarga directa de Boot Camp)      "
 echo "=================================================="
 
 # --- 1. Instalar dependencias ---
-echo -e "\n[PASO 1/7] Actualizando el sistema e instalando dependencias (curl, git, unrar, build-essential, cheese)..."
+echo -e "\n[PASO 1/7] Actualizando el sistema e instalando dependencias (curl, git, unrar, build-essential, mpv)..."
 sudo apt update > /dev/null 2>&1
-sudo apt install -y curl git unrar build-essential linux-headers-$(uname -r) cheese || {
+sudo apt install -y curl git unrar build-essential linux-headers-$(uname -r) mpv || {
     echo "Error al instalar dependencias. Comprueba la conexión a internet o los repositorios."
     exit 1
 }
@@ -108,8 +108,8 @@ echo "Limpieza finalizada."
 # Verificar y probar
 if [ -e /dev/video0 ]; then
     echo "✅ ¡Éxito! La cámara ha sido detectada como /dev/video0."
-    echo "Iniciando Cheese para probar la cámara (ciérralo tras la prueba):"
-    nohup cheese &
+    echo "Iniciando mpv para probar la cámara (ciérralo tras la prueba):"
+    nohup mpv av://v4l2:/dev/video0 --profile=low-latency --untimed > /dev/null 2>&1 &
 else
     echo "❌ La cámara NO fue detectada inmediatamente. DEBES REINICIAR EL SISTEMA AHORA."
 fi
